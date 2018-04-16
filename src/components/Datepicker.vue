@@ -261,7 +261,11 @@ export default {
           date: dObj.getDate(),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedDate(dObj),
-          isMarked: this.isMarkedDate(dObj),
+          isMaxMarked: this.isMaxMarkedDate(dObj),
+          isMinMarked: this.isMinMarkedDate(dObj),
+          isHalfMarked: this.isHalfMarkedDate(dObj),
+          isMaxHalfMarked: this.isMaxHalfMarkedDate(dObj),
+          isMinHalfMarked: this.isMinHalfMarkedDate(dObj),
           isDisabled: this.isDisabledDate(dObj),
           isHighlighted: this.isHighlightedDate(dObj),
           isHighlightStart: this.isHighlightStart(dObj),
@@ -602,7 +606,37 @@ export default {
      * @return {Boolean}
      */
     isMaxMarkedDate (date) {
+      let marked = false
+      // let density = this.marked.density
+      //
+      // let max = density.reduce((prev, curr) => {
+      //   return curr > prev
+      // })
+      // let min = density.reduce((prev, curr) => {
+      //   return curr < prev
+      // })
+      //
+      // for (let i = 0; i < density.length; i++) {
+      //     if (density[i] <= max && density[i] > max - (max - min) / 5) {
+      //     }
+      // }
 
+      if (typeof this.marked === 'undefined') {
+        return false
+      }
+
+      if (typeof this.marked !== 'undefined') {
+        this.marked.forEach(d => {
+          if (!(d.date instanceof Date)) {
+            d.date = new Date(d.date)
+          }
+          if (date.toDateString() === d.date.toDateString() && d.density === 1) {
+            marked = true
+            return true
+          }
+        })
+      }
+      return marked
     },
     /**
      * Whether a day is marked
@@ -610,7 +644,23 @@ export default {
      * @return {Boolean}
      */
     isMinMarkedDate (date) {
+      let marked = false
+      if (typeof this.marked === 'undefined') {
+        return false
+      }
 
+      if (typeof this.marked !== 'undefined') {
+        this.marked.forEach(d => {
+          if (!(d.date instanceof Date)) {
+            d.date = new Date(d.date)
+          }
+          if (date.toDateString() === d.date.toDateString() && d.density === 0) {
+            marked = true
+            return true
+          }
+        })
+      }
+      return marked
     },
     /**
      * Whether a day is marked
@@ -618,7 +668,23 @@ export default {
      * @return {Boolean}
      */
     isHalfMarkedDate (date) {
+      let marked = false
+      if (typeof this.marked === 'undefined') {
+        return false
+      }
 
+      if (typeof this.marked !== 'undefined') {
+        this.marked.forEach(d => {
+          if (!(d.date instanceof Date)) {
+            d.date = new Date(d.date)
+          }
+          if (date.toDateString() === d.date.toDateString() && d.density === 0.5) {
+            marked = true
+            return true
+          }
+        })
+      }
+      return marked
     },
     /**
      * Whether a day is marked
@@ -626,7 +692,23 @@ export default {
      * @return {Boolean}
      */
     isMaxHalfMarkedDate (date) {
+      let marked = false
+      if (typeof this.marked === 'undefined') {
+        return false
+      }
 
+      if (typeof this.marked !== 'undefined') {
+        this.marked.forEach(d => {
+          if (!(d.date instanceof Date)) {
+            d.date = new Date(d.date)
+          }
+          if (date.toDateString() === d.date.toDateString() && d.density === 0.75) {
+            marked = true
+            return true
+          }
+        })
+      }
+      return marked
     },
     /**
      * Whether a day is marked
@@ -634,7 +716,23 @@ export default {
      * @return {Boolean}
      */
     isMinHalfMarkedDate (date) {
+      let marked = false
+      if (typeof this.marked === 'undefined') {
+        return false
+      }
 
+      if (typeof this.marked !== 'undefined') {
+        this.marked.forEach(d => {
+          if (!(d.date instanceof Date)) {
+            d.date = new Date(d.date)
+          }
+          if (date.toDateString() === d.date.toDateString() && d.density === 0.25) {
+            marked = true
+            return true
+          }
+        })
+      }
+      return marked
     },
     isMarkedDate (date) {
       let marked = false
@@ -898,11 +996,11 @@ export default {
       return {
         'selected': day.isSelected,
         'marked': day.isMarked,
-        'marked__max': day.isMarked,
-        'marked__min': day.isMarked,
-        'marked__half': day.isMarked,
-        'marked__maxhalf': day.isMarked,
-        'marked__minhalf': day.isMarked,
+        'marked__max': day.isMaxMarked,
+        'marked__min': day.isMinMarked,
+        'marked__half': day.isHalfMarked,
+        'marked__maxhalf': day.isMaxHalfMarked,
+        'marked__minhalf': day.isMinHalfMarked,
         'disabled': day.isDisabled,
         'highlighted': day.isHighlighted,
         'today': day.isToday,
@@ -1017,14 +1115,19 @@ $width = 300px
             &:hover
                 background #31dd36
         &.marked__max
+            background #38dd76
             opacity 1
         &.marked__min
+            background #38dd76
             opacity 0.2
         &.marked__half
+            background #38dd76
             opacity 0.6
         &.marked__maxhalf
+            background #38dd76
             opacity 0.8
         &.marked__minhalf
+            background #38dd76
             opacity 0.4
         &.selected
             background #4bd

@@ -292,7 +292,11 @@ export default {
   },
   computed: {
     markedArray () {
-      return [1523511222593, 1523252022593, 1522992822593]
+      return [
+        {date: 1523511222593, density: 1},
+        {date: 1523252022593, density: 0.25},
+        {date: 1522992822593, density: 0.5}
+      ]
     }
   },
   methods: {
