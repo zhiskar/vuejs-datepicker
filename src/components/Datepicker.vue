@@ -135,6 +135,7 @@ export default {
     },
     fullMonthName: Boolean,
     disabled: Object,
+    marked: Array,
     highlighted: Object,
     placeholder: String,
     inline: Boolean,
@@ -260,6 +261,7 @@ export default {
           date: dObj.getDate(),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedDate(dObj),
+          isMarked: this.isMarkedDate(dObj),
           isDisabled: this.isDisabledDate(dObj),
           isHighlighted: this.isHighlightedDate(dObj),
           isHighlightStart: this.isHighlightStart(dObj),
@@ -595,6 +597,66 @@ export default {
       return this.selectedDate && this.selectedDate.toDateString() === dObj.toDateString()
     },
     /**
+     * Whether a day is marked
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isMaxMarkedDate (date) {
+
+    },
+    /**
+     * Whether a day is marked
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isMinMarkedDate (date) {
+
+    },
+    /**
+     * Whether a day is marked
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isHalfMarkedDate (date) {
+
+    },
+    /**
+     * Whether a day is marked
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isMaxHalfMarkedDate (date) {
+
+    },
+    /**
+     * Whether a day is marked
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isMinHalfMarkedDate (date) {
+
+    },
+    isMarkedDate (date) {
+      let marked = false
+
+      if (typeof this.marked === 'undefined') {
+        return false
+      }
+
+      if (typeof this.marked !== 'undefined') {
+        this.marked.forEach(d => {
+          if (!(d instanceof Date)) {
+            d = new Date(d)
+          }
+          if (date.toDateString() === d.toDateString()) {
+            marked = true
+            return true
+          }
+        })
+      }
+      return marked
+    },
+    /**
      * Whether a day is disabled
      * @param {Date}
      * @return {Boolean}
@@ -835,6 +897,12 @@ export default {
     dayClasses (day) {
       return {
         'selected': day.isSelected,
+        'marked': day.isMarked,
+        'marked__max': day.isMarked,
+        'marked__min': day.isMarked,
+        'marked__half': day.isMarked,
+        'marked__maxhalf': day.isMarked,
+        'marked__minhalf': day.isMarked,
         'disabled': day.isDisabled,
         'highlighted': day.isHighlighted,
         'today': day.isToday,
@@ -944,6 +1012,20 @@ $width = 300px
             cursor pointer
             &:hover
                 border 1px solid #4bd
+        &.marked
+            background #38dd76
+            &:hover
+                background #31dd36
+        &.marked__max
+            opacity 1
+        &.marked__min
+            opacity 0.2
+        &.marked__half
+            opacity 0.6
+        &.marked__maxhalf
+            opacity 0.8
+        &.marked__minhalf
+            opacity 0.4
         &.selected
             background #4bd
             &:hover

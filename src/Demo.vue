@@ -153,6 +153,14 @@
     </div>
 
     <div class="example">
+      <h3>Marking Day's</h3>
+      <div class="form-group">
+        <label>Example of marked days</label>
+        <datepicker :inline="true" :marked="markedArray"/>
+      </div>
+    </div>
+
+    <div class="example">
       <h3>With default open date</h3>
       <datepicker :open-date="openDate"></datepicker>
       <code>
@@ -280,6 +288,11 @@ export default {
       language: 'en',
       languages: DateLanguages.translations,
       vModelExample: null
+    }
+  },
+  computed: {
+    markedArray () {
+      return [1523511222593, 1523252022593, 1522992822593]
     }
   },
   methods: {
